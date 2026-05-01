@@ -1,0 +1,93 @@
+services:
+  syncthing:
+
+    cap_drop:
+      - "AUDIT_CONTROL"
+      - "BLOCK_SUSPEND"
+      - "DAC_READ_SEARCH"
+      - "IPC_LOCK"
+      - "IPC_OWNER"
+      - "LEASE"
+      - "LINUX_IMMUTABLE"
+      - "MAC_ADMIN"
+      - "MAC_OVERRIDE"
+      - "NET_ADMIN"
+      - "NET_BROADCAST"
+      - "SYSLOG"
+      - "SYS_ADMIN"
+      - "SYS_BOOT"
+      - "SYS_MODULE"
+      - "SYS_NICE"
+      - "SYS_PACCT"
+      - "SYS_PTRACE"
+      - "SYS_RAWIO"
+      - "SYS_RESOURCE"
+      - "SYS_TIME"
+      - "SYS_TTY_CONFIG"
+      - "WAKE_ALARM"
+
+    container_name: "syncthing"
+
+    entrypoint:
+      - "/init"
+
+    environment:
+      - "PUID=1000"
+      - "PGID=1000"
+      - "TZ=Etc/UTC"
+      - "PATH=/lsiopy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+      - "PS1=$$(whoami)@$$(hostname):$$(pwd)\\$$"
+      - "HOME=/config"
+      - "TERM=xterm"
+      - "S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0"
+      - "S6_VERBOSITY=1"
+      - "S6_STAGE2_HOOK=/docker-mods"
+      - "VIRTUAL_ENV=/lsiopy"
+      - "LSIO_FIRST_PARTY=true"
+
+    hostname: "syncthing"
+
+    image: "lscr.io/linuxserver/syncthing:latest"
+
+    ipc: "private"
+
+    labels:
+      build_version: "Linuxserver.io version:- v2.0.13-ls205 Build-date:- 2026-01-06T12:21:34+00:00"
+      maintainer: "thelamer"
+      org.opencontainers.image.authors: "linuxserver.io"
+      org.opencontainers.image.created: "2026-01-06T12:21:34+00:00"
+      org.opencontainers.image.description: "[Syncthing](https://syncthing.net) replaces proprietary sync\
+        \ and cloud services with something open, trustworthy and decentralized. Your data is your data\
+        \ alone and you deserve to choose where it is stored, if it is shared with some third party and\
+        \ how it's transmitted over the Internet."
+      org.opencontainers.image.documentation: "https://docs.linuxserver.io/images/docker-syncthing"
+      org.opencontainers.image.licenses: "GPL-3.0-only"
+      org.opencontainers.image.ref.name: "9154181cd7f45ee35a11765384b7210be48ee3e6"
+      org.opencontainers.image.revision: "9154181cd7f45ee35a11765384b7210be48ee3e6"
+      org.opencontainers.image.source: "https://github.com/linuxserver/docker-syncthing"
+      org.opencontainers.image.title: "Syncthing"
+      org.opencontainers.image.url: "https://github.com/linuxserver/docker-syncthing/packages"
+      org.opencontainers.image.vendor: "linuxserver.io"
+      org.opencontainers.image.version: "v2.0.13-ls205"
+
+    logging:
+      driver: "json-file"
+      options: {}
+
+    network_mode: "bridge"
+
+    ports:
+      - "21027:21027/udp"
+      - "22000:22000/tcp"
+      - "22000:22000/udp"
+      - "8384:8384/tcp"
+
+    restart: "unless-stopped"
+
+    volumes:
+      - "${CONFIGURATION_FOLDER}/syncthing:/config"
+      - "/mnt/Files:/mnt/Files"
+
+    working_dir: "/"
+
+version: "3.6"

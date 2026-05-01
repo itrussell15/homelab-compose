@@ -1,0 +1,80 @@
+services:
+  homer:
+
+    cap_drop:
+      - "AUDIT_CONTROL"
+      - "BLOCK_SUSPEND"
+      - "DAC_READ_SEARCH"
+      - "IPC_LOCK"
+      - "IPC_OWNER"
+      - "LEASE"
+      - "LINUX_IMMUTABLE"
+      - "MAC_ADMIN"
+      - "MAC_OVERRIDE"
+      - "NET_ADMIN"
+      - "NET_BROADCAST"
+      - "SYSLOG"
+      - "SYS_ADMIN"
+      - "SYS_BOOT"
+      - "SYS_MODULE"
+      - "SYS_NICE"
+      - "SYS_PACCT"
+      - "SYS_PTRACE"
+      - "SYS_RAWIO"
+      - "SYS_RESOURCE"
+      - "SYS_TIME"
+      - "SYS_TTY_CONFIG"
+      - "WAKE_ALARM"
+
+    container_name: "homer"
+
+    entrypoint:
+      - "/bin/sh"
+      - "/entrypoint.sh"
+
+    environment:
+      - "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+      - "GID=1000"
+      - "UID=1000"
+      - "PORT=8080"
+      - "SUBFOLDER=/_"
+      - "INIT_ASSETS=1"
+      - "IPV6_DISABLE=0"
+
+    hostname: "5bc5d4770d97"
+
+    image: "b4bz/homer:latest"
+
+    ipc: "private"
+
+    labels:
+      org.label-schema.schema-version: "1.0"
+      org.label-schema.version: "v25.11.1"
+      org.opencontainers.image.description: "A dead simple static Home-Page for your server to keep your\
+        \ services on hand, from a simple yaml configuration file."
+      org.opencontainers.image.licenses: "Apache-2.0 license"
+      org.opencontainers.image.ref.name: "b4bz/homer:v25.11.1"
+      org.opencontainers.image.source: "https://github.com/bastienwirtz/homer"
+      org.opencontainers.image.title: "Homer Image"
+      org.opencontainers.image.url: "https://hub.docker.com/r/b4bz/homer"
+      org.opencontainers.image.version: "v25.11.1"
+
+    logging:
+      driver: "json-file"
+      options: {}
+
+    network_mode: "bridge"
+
+    ports:
+      - "8080:8080/tcp"
+
+    restart: "always"
+
+    user: "1000:1000"
+
+    volumes:
+      - "${CONFIGURATION_FOLDER}/homer:/www/assets"
+
+    working_dir: "/www"
+
+version: "3.6"

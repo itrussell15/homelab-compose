@@ -1,0 +1,95 @@
+services:
+  home-assistant:
+
+    cap_drop:
+      - "AUDIT_CONTROL"
+      - "BLOCK_SUSPEND"
+      - "DAC_READ_SEARCH"
+      - "IPC_LOCK"
+      - "IPC_OWNER"
+      - "LEASE"
+      - "LINUX_IMMUTABLE"
+      - "MAC_ADMIN"
+      - "MAC_OVERRIDE"
+      - "NET_ADMIN"
+      - "NET_BROADCAST"
+      - "SYSLOG"
+      - "SYS_ADMIN"
+      - "SYS_BOOT"
+      - "SYS_MODULE"
+      - "SYS_NICE"
+      - "SYS_PACCT"
+      - "SYS_PTRACE"
+      - "SYS_RAWIO"
+      - "SYS_RESOURCE"
+      - "SYS_TIME"
+      - "SYS_TTY_CONFIG"
+      - "WAKE_ALARM"
+
+    container_name: "home-assistant"
+
+    devices:
+      - "/dev/ttyUSB0:/dev/ttyUSB0"
+
+    entrypoint:
+      - "/init"
+
+    environment:
+      - "TZ=America/Los_Angeles"
+      - "UUID=1000"
+      - "PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+      - "LANG=C.UTF-8"
+      - "S6_BEHAVIOUR_IF_STAGE2_FAILS=2"
+      - "S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0"
+      - "S6_CMD_WAIT_FOR_SERVICES=1"
+      - "S6_SERVICES_READYTIME=50"
+      - "UV_EXTRA_INDEX_URL=https://wheels.home-assistant.io/musllinux-index/"
+      - "S6_SERVICES_GRACETIME=240000"
+      - "UV_SYSTEM_PYTHON=true"
+      - "UV_NO_CACHE=true"
+
+    hostname: "ubuntuvm"
+
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+
+    ipc: "private"
+
+    labels:
+      io.hass.arch: "amd64"
+      io.hass.base.arch: "amd64"
+      io.hass.base.image: "ghcr.io/home-assistant/amd64-base:3.22"
+      io.hass.base.name: "python"
+      io.hass.base.version: "2025.12.1"
+      io.hass.type: "core"
+      io.hass.version: "2026.1.1"
+      org.opencontainers.image.authors: "The Home Assistant Authors"
+      org.opencontainers.image.created: "2026-01-12 10:56:26+00:00"
+      org.opencontainers.image.description: "Open-source home automation platform running on Python 3"
+      org.opencontainers.image.documentation: "https://www.home-assistant.io/docs/"
+      org.opencontainers.image.licenses: "Apache-2.0"
+      org.opencontainers.image.source: "https://github.com/home-assistant/core"
+      org.opencontainers.image.title: "Home Assistant"
+      org.opencontainers.image.url: "https://www.home-assistant.io/"
+      org.opencontainers.image.version: "2026.1.1"
+
+    logging:
+      driver: "json-file"
+      options: {}
+
+    network_mode: "host"
+
+    privileged: true
+
+    restart: "unless-stopped"
+
+    security_opt:
+      - "label=disable"
+
+    volumes:
+      - "${CONFIGURATION_FOLDER}/home-assistant:/config"
+      - "/run/dbus:/run/dbus:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+    working_dir: "/config"
+
+version: "3.6"

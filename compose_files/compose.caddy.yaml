@@ -1,0 +1,105 @@
+networks:
+  caddy_default:
+    external: true
+    name: "caddy_default"
+
+services:
+  caddy-caddy-1:
+
+    cap_drop:
+      - "AUDIT_CONTROL"
+      - "BLOCK_SUSPEND"
+      - "DAC_READ_SEARCH"
+      - "IPC_LOCK"
+      - "IPC_OWNER"
+      - "LEASE"
+      - "LINUX_IMMUTABLE"
+      - "MAC_ADMIN"
+      - "MAC_OVERRIDE"
+      - "NET_ADMIN"
+      - "NET_BROADCAST"
+      - "SYSLOG"
+      - "SYS_ADMIN"
+      - "SYS_BOOT"
+      - "SYS_MODULE"
+      - "SYS_NICE"
+      - "SYS_PACCT"
+      - "SYS_PTRACE"
+      - "SYS_RAWIO"
+      - "SYS_RESOURCE"
+      - "SYS_TIME"
+      - "SYS_TTY_CONFIG"
+      - "WAKE_ALARM"
+
+    command:
+      - "caddy"
+      - "run"
+      - "--config"
+      - "/etc/caddy/Caddyfile"
+      - "--adapter"
+      - "caddyfile"
+
+    container_name: "caddy"
+
+    environment:
+      - "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+      - "CADDY_VERSION=v2.10.2"
+      - "XDG_CONFIG_HOME=/config"
+      - "XDG_DATA_HOME=/data"
+
+    hostname: "ff891ecac102"
+
+    image: "caddy:2"
+
+    ipc: "private"
+
+    labels:
+      com.docker.compose.config-hash: "c326918621ee68b2d447958c8f1d04aa2aa55c73831dcaf238f421b6aa0b3e85"
+      com.docker.compose.container-number: "1"
+      com.docker.compose.depends_on: ""
+      com.docker.compose.image: "sha256:e4bd530ab75a01a5c22fbb097938267e4cde118eab50ae68078df59ce83bceb2"
+      com.docker.compose.oneoff: "False"
+      com.docker.compose.project: "caddy"
+      com.docker.compose.project.config_files: "/data/compose/35/docker-compose.yml"
+      com.docker.compose.project.working_dir: "/data/compose/35"
+      com.docker.compose.service: "caddy"
+      com.docker.compose.version: ""
+      org.opencontainers.image.description: "a powerful, enterprise-ready, open source web server with\
+        \ automatic HTTPS written in Go"
+      org.opencontainers.image.documentation: "https://caddyserver.com/docs"
+      org.opencontainers.image.licenses: "Apache-2.0"
+      org.opencontainers.image.source: "https://github.com/caddyserver/caddy-docker"
+      org.opencontainers.image.title: "Caddy"
+      org.opencontainers.image.url: "https://caddyserver.com"
+      org.opencontainers.image.vendor: "Light Code Labs"
+      org.opencontainers.image.version: "v2.10.2"
+
+    logging:
+      driver: "json-file"
+      options: {}
+
+    networks:
+      - "caddy_default"
+
+    ports:
+      - "443:443/tcp"
+      - "443:443/udp"
+      - "80:80/tcp"
+
+    restart: "unless-stopped"
+
+    volumes:
+      - "${CONFIGURATION_FOLDER}/caddy:/etc/caddy"
+      - "${WEBSITE_FOLDER}:/srv"
+      - "caddy_caddy_config:/config"
+      - "caddy_caddy_data:/data"
+
+    working_dir: "/srv"
+
+version: "3.6"
+
+volumes:
+  caddy_caddy_config:
+    external: true
+  caddy_caddy_data:
+    external: true

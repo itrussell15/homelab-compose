@@ -1,0 +1,93 @@
+networks:
+  birthdays_default:
+    external: true
+    name: "birthdays_default"
+
+services:
+  birthday_notifier:
+
+    cap_drop:
+      - "AUDIT_CONTROL"
+      - "BLOCK_SUSPEND"
+      - "DAC_READ_SEARCH"
+      - "IPC_LOCK"
+      - "IPC_OWNER"
+      - "LEASE"
+      - "LINUX_IMMUTABLE"
+      - "MAC_ADMIN"
+      - "MAC_OVERRIDE"
+      - "NET_ADMIN"
+      - "NET_BROADCAST"
+      - "SYSLOG"
+      - "SYS_ADMIN"
+      - "SYS_BOOT"
+      - "SYS_MODULE"
+      - "SYS_NICE"
+      - "SYS_PACCT"
+      - "SYS_PTRACE"
+      - "SYS_RAWIO"
+      - "SYS_RESOURCE"
+      - "SYS_TIME"
+      - "SYS_TTY_CONFIG"
+      - "WAKE_ALARM"
+
+    command:
+      - "uvicorn"
+      - "app.main:app"
+      - "--host"
+      - "0.0.0.0"
+      - "--port"
+      - "8001"
+
+    container_name: "birthday_notifier"
+
+    environment:
+      - "DATABASE_URL=sqlite:///./data/birthdays.db"
+      - "SCHEDULER_HOUR=10"
+      - "SCHEDULER_MINUTE=0"
+      - "TIMEZONE=America/Los_Angeles"
+      - "PUSHOVER_APP_TOKEN=${PUSHOVER_APP_TOKEN}"
+      - "PUSHOVER_USER_KEY=${PUSHOVER_USER_KEY}"
+      - "PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+      - "LANG=C.UTF-8"
+      - "GPG_KEY=7169605F62C751356D054A26A821E680E5FA6305"
+      - "PYTHON_VERSION=3.12.12"
+      - "PYTHON_SHA256=fb85a13414b028c49ba18bbd523c2d055a30b56b18b92ce454ea2c51edc656c4"
+      - "PYTHONUNBUFFERED=1"
+
+    hostname: "ed6819bcf63d"
+
+    image: "birthdays-birthdays:latest"
+
+    ipc: "private"
+
+    labels:
+      com.docker.compose.config-hash: "9e98b37171b439816b0c5cf355570d99f4915627075f3aaf5846b0a78feaf5a3"
+      com.docker.compose.container-number: "1"
+      com.docker.compose.depends_on: ""
+      com.docker.compose.image: "sha256:3f641f96135b621df0bbf2696676c8865ee362ab23d8fadb39c841f24b611cc8"
+      com.docker.compose.oneoff: "False"
+      com.docker.compose.project: "birthdays"
+      com.docker.compose.project.config_files: "/data/compose/27/docker-compose.yml"
+      com.docker.compose.project.working_dir: "/data/compose/27"
+      com.docker.compose.service: "birthdays"
+      com.docker.compose.version: ""
+
+    logging:
+      driver: "json-file"
+      options: {}
+
+    networks:
+      - "birthdays_default"
+
+    ports:
+      - "9090:8001/tcp"
+
+    restart: "unless-stopped"
+
+    volumes:
+      - "/data/compose/27/data:/app/data"
+
+    working_dir: "/app"
+
+version: "3.6"
