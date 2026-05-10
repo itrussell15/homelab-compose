@@ -14,8 +14,8 @@ services:
       MAIL_DRIVER: smtp
       SMTP_HOST: smtp.gmail.com
       SMTP_PORT: 587
-      SMTP_USERNAME: itrussell15@gmail.com
-      SMTP_PASSWORD: xedokgizwkilblwmd
+      SMTP_USERNAME: ${SMTP_USERNAME}
+      SMTP_PASSWORD: ${SMTP_PASSWORD}
       SMTP_SECURE: false # Port 587 uses STARTTLS
       MAIL_FROM_ADDRESS: itrussell15@gmail.com
       MAIL_FROM_NAME: Docmost
