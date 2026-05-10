@@ -43,7 +43,7 @@ services:
       - "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
       - "SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt"
 
-    hostname: "bcc797261fe8"
+    hostname: "shuttle_pc"
 
     image: "cloudflare/cloudflared:latest"
 

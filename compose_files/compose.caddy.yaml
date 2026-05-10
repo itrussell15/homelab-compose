@@ -1,7 +1,7 @@
 networks:
-  caddy_default:
+  caddy_network:
     external: true
-    name: "caddy_default"
+    name: "caddy_network"
 
 services:
   caddy-caddy-1:
@@ -79,7 +79,7 @@ services:
       options: {}
 
     networks:
-      - "caddy_default"
+      - "caddy_network"
 
     ports:
       - "443:443/tcp"
@@ -91,15 +91,15 @@ services:
     volumes:
       - "${CONFIGURATION_FOLDER}/caddy:/etc/caddy"
       - "${WEBSITE_FOLDER}:/srv"
-      - "caddy_caddy_config:/config"
-      - "caddy_caddy_data:/data"
+      - "caddy_config:/config"
+      - "caddy_data:/data"
 
     working_dir: "/srv"
 
 version: "3.6"
 
 volumes:
-  caddy_caddy_config:
+  caddy_config:
     external: true
-  caddy_caddy_data:
+  caddy_data:
     external: true

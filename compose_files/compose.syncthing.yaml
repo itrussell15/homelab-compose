@@ -86,7 +86,7 @@ services:
 
     volumes:
       - "${CONFIGURATION_FOLDER}/syncthing:/config"
-      - "/mnt/Files:/mnt/Files"
+      - "/mnt/drive/syncthing:/mnt/drive/syncthing"
 
     working_dir: "/"
 

@@ -39,7 +39,7 @@ services:
       - "--port"
       - "8001"
 
-    container_name: "birthday_notifier"
+    container_name: "birthday-notifications"
 
     environment:
       - "DATABASE_URL=sqlite:///./data/birthdays.db"
@@ -57,7 +57,7 @@ services:
 
     hostname: "ed6819bcf63d"
 
-    image: "birthdays-birthdays:latest"
+    image: "itrussell15/birthday-notifications:latest"
 
     ipc: "private"
 
@@ -77,16 +77,13 @@ services:
       driver: "json-file"
       options: {}
 
-    networks:
-      - "birthdays_default"
-
     ports:
       - "9090:8001/tcp"
 
     restart: "unless-stopped"
 
     volumes:
-      - "/data/compose/27/data:/app/data"
+      - "${CONFIGURATION_FOLDER}/birthdays:/app/data"
 
     working_dir: "/app"
 
