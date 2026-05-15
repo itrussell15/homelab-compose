@@ -1,4 +1,5 @@
 **/.env
 compose_files/beszel_agent_data/
 compose_files/beszel_data/
+compose_files/data/
 configuration/*
