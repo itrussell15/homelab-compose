@@ -10,17 +10,21 @@ services:
     volumes:
       - ./beszel_data:/beszel_data
   beszel-agent:
-    image: henrygd/beszel-agent
+    image: henrygd/beszel-agent:alpine
     container_name: beszel-agent
     restart: unless-stopped
     network_mode: host
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./beszel_agent_data:/var/lib/beszel-agent
-      # monitor other disks / partitions by mounting a folder in /extra-filesystems
-      # - /mnt/disk/.beszel:/extra-filesystems/sda1:ro
     environment:
       LISTEN: 45876
       KEY: 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBaUiSH6MWVlsaLDxkqRHSXX2Gvd/oXs02DJPJOGjewn'
       TOKEN: f21cd571-251c-46b7-a278-1006b926715b
       HUB_URL: http://localhost:8090
+    devices:
+    - /dev/sda:/dev/sda
+    - /dev/sdb:/dev/sdb
+    cap_add:
+    - SYS_RAWIO # required for S.M.A.R.T. data
+    - SYS_ADMIN # required for NVMe S.M.A.R.T. data
