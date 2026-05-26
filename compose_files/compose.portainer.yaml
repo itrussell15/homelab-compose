@@ -2,6 +2,7 @@ services:
   portainer:
 
     container_name: "portainer"
+    command: --trusted-origins="docker.itrussell.me"
 
     entrypoint:
       - "/portainer"
